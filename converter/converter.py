@@ -4,7 +4,7 @@ import webapp2
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
-                               autoscape = True)
+                               autoescape = True)
 
 class Handler(webapp2.RequestHandler):
     def write(self, *a, **kw):
@@ -18,7 +18,10 @@ class Handler(webapp2.RequestHandler):
         self.write(self.render_str(template, **kw))
 
 class MainPage(Handler):
+    def post(self):
+        text = self.request.get("text", 0)
+        
     def get(self):
-        pass
+        self.render("converter.html")
 
 app = webapp2.WSGIApplication([('/', MainPage)], debug=True)
